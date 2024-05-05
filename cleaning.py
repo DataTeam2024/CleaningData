@@ -31,14 +31,13 @@ def get_top_words(csv_file):
 
 def get_top_time(csv_file):
     df = pd.read_csv(csv_file)
-    time = df['time']
-    time_counts = Counter(time)
-    top_20_time = time_counts.most_common(10)
-    
-    with open('src/topTime.csv', 'w', newline='', encoding='utf-8') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerow(['Time', 'Frequency'])
-        writer.writerows(top_20_time)
+    df['hour'] = df['time'].str[:2]
+    hour_counts = df['hour'].value_counts()
+    top_10_hours = hour_counts.head(10)
+    df_top_10_hours = pd.DataFrame({'hour': top_10_hours.index, 'times': top_10_hours.values})
+    df_top_10_hours.to_csv('src/topHours.csv', index=False)
+
 
 get_top_words('src/heyBankTweet.csv')
 get_top_time('src/heyBankOriginal.csv')
+
