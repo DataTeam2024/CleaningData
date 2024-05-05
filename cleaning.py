@@ -29,5 +29,16 @@ def get_top_words(csv_file):
         writer.writerow(['Word', 'Frequency'])
         writer.writerows(top_20_words)
 
+def get_top_time(csv_file):
+    df = pd.read_csv(csv_file)
+    time = df['time']
+    time_counts = Counter(time)
+    top_20_time = time_counts.most_common(10)
+    
+    with open('src/topTime.csv', 'w', newline='', encoding='utf-8') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['Time', 'Frequency'])
+        writer.writerows(top_20_time)
 
 get_top_words('src/heyBankTweet.csv')
+get_top_time('src/heyBankOriginal.csv')
